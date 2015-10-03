@@ -49,5 +49,26 @@
      private Student;
      private Internship;
      private recentGrad;
+
+     function __constructor($ua, $apikey){
+
+       if ($ua) { $this->setUserAgent($ua); }
+       if ($apikey) { $this->setAPIKey($apikey); }
+     }
+
+     /*
+        Note: there is no setHost method b/c host should never change.
+        There are also no getUserAgent or getAPIKey methods for seurity reasons.
+     */
+
+     function setUserAgent($ua) {
+       // TODO: regex for email validation
+       $this->user_agent = $ua;
+     }
+
+     function setAPIKey($apikey) {
+       $this->authorization_key = $apikey;
+     }
+
    }
 ?>
