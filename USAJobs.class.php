@@ -50,10 +50,10 @@
      private $Internship;
      private $recentGrad;
 
-     function __constructor($ua, $apikey){
+     function __construct($ua, $apikey){
 
-       if ($ua) { $this->setUserAgent($ua); }
-       if ($apikey) { $this->setAPIKey($apikey); }
+       $this->setUserAgent($ua);
+       $this->setAPIKey($apikey);
      }
 
      /*
@@ -62,37 +62,45 @@
      */
 
      function setUserAgent($ua) {
-       // TODO: regex for email validation
-       $this->user_agent = $ua;
+     	// TODO: regex to verify email format
+     	$this->user_agent = $ua;
      }
 
      function setAPIKey($apikey) {
-       $this->authorization_key = $apikey;
+     	$this->authorization_key = $apikey;
      }
 
      function getJobListing() {
-       if (($this->user_agent != "") && ($this->authorization_key != "")) {
 
+	if (($this->user_agent != "") && ($this->authorization_key != "")) {
           // establish our options (headers, etc.)
           $opts = array(
             'http'=>array(
               'method'=>"GET",
               'header'=>"Host: $this->host\r\n" .
                         "User-Agent: $this->user_agent\r\n" .
-                        "Authorization-Key: $this->authorization_key"
+                        "Authorization-Key: $this->authorization_key\r\n"
             )
           );
 
           // convert our options into a context
           $context = stream_context_create($opts);
 
+          // build our search URL
+          // Note: using search API w/o any parameters seems to cause it to 503/Service Unavailable. Too many results returned, perhaps?
+          // so use at least one parameter (e.g. "organization=TR") to reduce/filter results to avoid this.
+          $searchURL = $this->baseURL . "?keyword=TR";
+
           // retrieve JSON of jobs listing with our options/context
-          $file = file_get_contents($this->baseURL, false, $context);
+          $file = file_get_contents($searchURL, false, $context);
 
-       } else {
+          return $file;
+          }
+          else {
+          	echo "Your user_agent and/or api key are missing!";
+          	// TODO: throw an error?
+          }
 
-         // TODO: throw an error about missing required item.
-       }
      }
 
      function parseJobListing() {
