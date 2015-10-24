@@ -70,38 +70,6 @@
      	$this->authorization_key = $apikey;
      }
 
-     function getJobListing() {
-
-	if (($this->user_agent != "") && ($this->authorization_key != "")) {
-          // establish our options (headers, etc.)
-          $opts = array(
-            'http'=>array(
-              'method'=>"GET",
-              'header'=>"Host: $this->host\r\n" .
-                        "User-Agent: $this->user_agent\r\n" .
-                        "Authorization-Key: $this->authorization_key\r\n"
-            )
-          );
-
-          // convert our options into a context
-          $context = stream_context_create($opts);
-          
-          // build our search URL
-          // Note: using search API w/o any parameters seems to cause it to 503/Service Unavailable. Too many results returned, perhaps?
-          // so use at least one parameter (e.g. "organization=TR") to reduce/filter results to avoid this.
-          $searchURL = $this->baseURL . $this->createURLParams();
-
-          // retrieve JSON of jobs listing with our options/context
-          $file = file_get_contents($searchURL, false, $context);
-          
-          return $file;
-          }
-          else {
-          	echo "Your user_agent and/or api key are missing!";
-          	// TODO: throw an error?
-          }
-
-     }
      
      function setKeyword($kw) {
      	$this->keyword = $kw;
@@ -337,62 +305,197 @@
      function setRecentGrad($rg) {
      	$this->RecentGrad = $rg;
      }
-     function get() {
+     function getRecentGrad() {
      	return $this->RecentGrad;
+     }
+     
+     
+
+     
+     // UTILITY METHODS (Where the actual work happens)
+     
+     function getJobListing() {
+
+	if (($this->user_agent != "") && ($this->authorization_key != "")) {
+          // establish our options (headers, etc.)
+          $opts = array(
+            'http'=>array(
+              'method'=>"GET",
+              'header'=>"Host: $this->host\r\n" .
+                        "User-Agent: $this->user_agent\r\n" .
+                        "Authorization-Key: $this->authorization_key\r\n"
+            )
+          );
+
+          // convert our options into a context
+          $context = stream_context_create($opts);
+          
+          // build our search URL
+          // Note: using search API w/o any parameters seems to cause it to 503/Service Unavailable. Too many results returned, perhaps?
+          // so use at least one parameter (e.g. "organization=TR") to reduce/filter results to avoid this.
+          $searchURL = $this->baseURL . $this->createURLParams();
+
+          // retrieve JSON of jobs listing with our options/context
+          $file = file_get_contents($searchURL, false, $context);
+          
+          return $file;
+          }
+          else {
+          	echo "Your user_agent and/or api key are missing!";
+          	// TODO: throw an error?
+          }
+
      }
 
      
      function createURLParams() {
      
+        // TODO: tedious bullshittery. Maybe convert to an array we can loop through instead?
+     
      	$URLParams = "";
-     	
-     	// tedious bullshitery. There must be better way to accomplish this?
-     	// setQueryParams(key, value) perhaps? But then how can we validate the entered data?
-     	
+     	     	
      	if ($this->keyword != "") { 
-     		$URLParams = $URLParams . "keyword=" . $this->keyword;
+     		$URLParams = $URLParams . "&Keyword=" . $this->keyword;
      	}
-	if ($this->keywordExclusion != "") { }
-	if ($this->keywordFilter != "") { }
-	if ($this->PositionTitle != "") { }
-	if ($this->remunerationMinimumAmount != "") { }
-	if ($this->remunerationMaximumAmount != "") { }
-	if ($this->payGradeHigh != "") { }
-	if ($this->payGradeLow != "") { }
-	if ($this->jobCategoryCode != "") { }
-	if ($this->locationName != "") { }
-	if ($this->postingChannel != "") { }
-	if ($this->organization != "") { }
-	if ($this->positionOfferingTypeCode != "") { }
-	if ($this->travelPercentage != "") { }
-	if ($this->positionScheduleTypeCode != "") { }
-	if ($this->relocationIndicator != "") { }
-	if ($this->securityClearanceRequired != "") { }
-	if ($this->supervisoryStatus != "") { }
-	if ($this->excludeJOAOpenFor30Days != "") { }
-	if ($this->datePosted != "") { }
-	if ($this->jobGradeCode != "") { }
-	if ($this->sortField != "") { }
-	if ($this->sortDirection != "") { }
-	if ($this->page != "") { }
-	if ($this->resultsPerPage != "") { }
-	if ($this->whoMayApply != "") { }
-	if ($this->radius != "") { }
-	if ($this->fields != "") { }	
-	if ($this->salaryBucket != "") { }
-	if ($this->gradeBucket != "") { }
-	if ($this->SES != "") { }
-	if ($this->Student != "") { }
-	if ($this->Internship != "") { }
-	if ($this->recentGrad != "") { }
+     	
+	if ($this->keywordExclusion != "") { 
+     		$URLParams = $URLParams . "&KeywordExclusion=" . $this->keywordExclusion;
+	}
+	
+	if ($this->keywordFilter != "") { 
+	     	$URLParams = $URLParams . "&KeywordFilter=" . $this->keywordFilter;
+	}
+	
+	if ($this->PositionTitle != "") {
+	     	$URLParams = $URLParams . "&PositionTitle=" . $this->PositionTitle;
+	}
+	
+	if ($this->remunerationMinimumAmount != "") {
+	     	$URLParams = $URLParams . "&RemunerationMinimumAmount=" . $this->RemunerationMinimumAmount;
+	}
+	
+	if ($this->remunerationMaximumAmount != "") { 
+	     	$URLParams = $URLParams . "&RemunerationMaximumAmount=" . $this->RemunerationMaximumAmount;
+	}
+	
+	if ($this->payGradeHigh != "") { 
+	     	$URLParams = $URLParams . "&PayGradeHigh=" . $this->payGradeHigh;
+	}
+	
+	if ($this->payGradeLow != "") { 
+	     	$URLParams = $URLParams . "&PayGradeLow=" . $this->payGradeLow;
+	}
+	
+	if ($this->jobCategoryCode != "") { 
+	     	$URLParams = $URLParams . "&JobCategoryCode=" . $this->jobCategoryCode;
+	}
+
+	if ($this->locationName != "") { 
+	     	$URLParams = $URLParams . "&LocationName=" . $this->locationName;
+	}
+
+	if ($this->postingChannel != "") { 
+	     	$URLParams = $URLParams . "&PostingChannel=" . $this->postingChannel;
+	}
+
+	if ($this->organization != "") { 
+	     	$URLParams = $URLParams . "&Organization=" . $this->organization;
+	}
+
+	if ($this->positionOfferingTypeCode != "") { 
+		$URLParams = $URLParams . "&PositionOfferingTypeCode=" . $this->positionOfferingTypeCode;
+	}
+
+	if ($this->travelPercentage != "") { 
+	     	$URLParams = $URLParams . "&TravelPercentage=" . $this->travelPercentage;
+	}
+
+	if ($this->positionScheduleTypeCode != "") { 
+	     	$URLParams = $URLParams . "&PositionSchedule=" . $this->positionScheduleTypeCode;
+	}
+
+	if ($this->relocationIndicator != "") { 
+	     	$URLParams = $URLParams . "&RelocationIndicator=" . $this->relocationIndicator;
+	}
+
+	if ($this->securityClearanceRequired != "") { 
+	     	$URLParams = $URLParams . "&securityClearanceRequired=" . $this->securityClearanceRequired;
+	}
+
+	if ($this->supervisoryStatus != "") { 
+	     	$URLParams = $URLParams . "&SupervisoryStatus=" . $this->supervisoryStatus;
+	}
+
+	if ($this->excludeJOAOpenFor30Days != "") { 
+	     	$URLParams = $URLParams . "&ExcludeJOAOpenFor30Days" . $this->excludeJOAOpenFor30Days;
+	}
+
+	if ($this->datePosted != "") { 
+	     	$URLParams = $URLParams . "&DatePosted=" . $this->datePosted;
+	}
+
+	if ($this->jobGradeCode != "") { 
+	     	$URLParams = $URLParams . "&JobGradeCode=" . $this->jobGradeCode;
+	}
+
+	if ($this->sortField != "") { 
+	     	$URLParams = $URLParams . "&SortField=" . $this->sortField;
+	}
+
+	if ($this->sortDirection != "") { 
+	     	$URLParams = $URLParams . "&SortDirection=" . $this->sortDirection;
+	}
+
+	if ($this->page != "") { 
+	     	$URLParams = $URLParams . "&Page=" . $this->page;
+	}
+
+	if ($this->resultsPerPage != "") { 
+	     	$URLParams = $URLParams . "&ResultPerPage=" . $this->resultsPerPage;
+	}
+
+	if ($this->whoMayApply != "") {
+	     	$URLParams = $URLParams . "&WhoMayApply=" . $this->whoMayApply;
+	}
+
+	if ($this->radius != "") { 
+	     	$URLParams = $URLParams . "&radius=" . $this->radius;
+	}
+
+	if ($this->fields != "") { 
+	     	$URLParams = $URLParams . "&fields=" . $this->fields;
+	}	
+
+	if ($this->salaryBucket != "") { 
+	     	$URLParams = $URLParams . "&SalaryBucket=" . $this->salaryBucket;
+	}
+
+	if ($this->gradeBucket != "") { 
+	     	$URLParams = $URLParams . "&GradeBucket=" . $this->gradeBucket;
+	}
+
+	if ($this->SES != "") { 
+	     	$URLParams = $URLParams . "&SES=" . $this->SES;
+	}
+
+	if ($this->Student != "") { 
+	     	$URLParams = $URLParams . "&Student=" . $this->Student;
+	}
+
+	if ($this->Internship != "") { 
+	     	$URLParams = $URLParams . "&Internship=" . $this->Internship;
+	}
+
+	if ($this->recentGrad != "") { 
+	     	$URLParams = $URLParams . "&RecentGrad=" . $this->recentGrad;
+	}
 	
 	// if URLParams is NOT empty, don't forget to prefix the string with a question mark
 	if ($URLParams != "") { 
 		$URLParams = "?" . $URLParams;
-		}
 		
-	// TODO: convert string to URL safe format?
-	
+		}
+			
 	return $URLParams;
      }
 
