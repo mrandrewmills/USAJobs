@@ -12,7 +12,9 @@ a PHP utility class for USAJobs' new Search API (circa October 2015)
 
 Q. WHAT IS THIS EXACTLY?
 
-USAJobs announced they would replace their existing Search API in October 2015. Although the new API is not much more complicated, there were enough differences that making a PHP utility/helper seemed potentially helpful to others.
+USAJobs announced they would replace their existing Search API in October 2015. Although the new API is not much more complicated, there were enough differences (i.e. required request headers) that making a PHP utility/helper class seemed potentially helpful to others.
+
+This is a work in progress, and if other PHP developers want to help identify and/or resolve issues, please feel free to do so.
 
 Q. WHERE CAN I GET AN API KEY?
 
@@ -50,9 +52,9 @@ Once you have your API Key, use it to initialize an instance/object of our USAJo
 	$objUSAJobs = new USAJobs("YourEmailAddress","YourAPIKeyValue");
 ```
 
+*IMPORTANT NOTE:* If you invoke the getJobListing() method without first setting _any_ query filtering parameters, the USAJobs web server will return a 503 Error/Service Unavailable error.
 
-
-*IMPORTANT NOTE:* If you invoke the getJobListing() method without first setting _any_ query filtering parameters, the USAJobs web server will return a 503 Error/Service Unavailable error. 
+In the next step of our example, I'm going to limit my search results to jobs within the Department of Interior that contain the keyword of "archeologist."
 
 ```html
 
@@ -62,8 +64,6 @@ Once you have your API Key, use it to initialize an instance/object of our USAJo
 	// let's limit our search to jobs listed within the Department of The Interior
 	$objUSAJobs->setOrganization("IN");
 ```
-
-
 
 Once you've set your query parameters as desired, use the getJobListing() method to get the matching search results. The results will be returned in JSON format, so you'll probably want to decode them if you want to do any further manipulation on the server side.
 
@@ -76,4 +76,4 @@ Once you've set your query parameters as desired, use the getJobListing() method
 ?>
 ```
 
-
+In the example above, $jobs is a complex PHP variable. I'd suggest dumping it with a [print_r function](http://php.net/manual/en/function.print-r.php) to get a sense of the structure returned by the Search API. You'll find it contains both the job listings and metadata about the query.
