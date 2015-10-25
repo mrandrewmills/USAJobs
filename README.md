@@ -16,11 +16,19 @@ USAJobs announced they would replace their existing Search API in October 2015. 
 
 Q. WHERE CAN I GET AN API KEY?
 
-You can request an API Key from the [USAJobs.gov Developer website](https://developer.usajobs.gov/Search-API/Request-API-Key). They also have fairly decent documentation of their query parameters, which you might find worth reading as well.
+You can request an API Key from the [USAJobs.gov Developer website](https://developer.usajobs.gov/Search-API/Request-API-Key).
+
+Please don't contact me about issues with your API Key. I do not work for USAJobs, and will not be able to help you.
 
 Q. WHY DO I GET A 503/SERVICE UNAVAILABLE ERROR WHEN I USE YOUR CLASS?
 
-You're probably not using any query parameters to filter the results. For some reason, when you run a query for job listings without any filtering, the USAJobs server returns a 503 error (_presumably timing out before it can return the results?_).  If you add one query parameter (e.g. Organization=TR) that filters search results, that seems to prevent the 503 Error from happening. 
+You're probably not using any query parameters to filter the results. For some reason, when you run a query for job listings without any filtering, the USAJobs server returns a 503 error (_presumably timing out before it can return the results?_).  
+
+Fortunately, if you add one query parameter (e.g. Organization=TR) to filter search results, that prevents the 503 Error from happening. 
+
+So, stop being a jerk by asking for all job listing on USAJobs.gov ("I kid, I kid, I joke with you." - Triumph the Insult Comic Dog), and make more reasonable requests by narrowing your query with parameters before invoking the getJobListing() method.
+
+Not sure what query parameters you can use? USAJobs.gov has [fairly decent documentation](https://developer.usajobs.gov/Search-API/API-Query-Parameters).
 
 ## Tutorial
 
