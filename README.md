@@ -5,13 +5,14 @@ a PHP utility class for USAJobs' new Search API
 ## Contents
 
 [Frequently Asked Questions](#frequently-asked-questions)
+
 [Tutorial](#tutorial)
 
 ## Frequently Asked Questions
 
 Q. WHAT IS THIS EXACTLY?
 
-USAJobs announced they would replace their existing Search API in October 2015. Although the new API is not much more complicated, I felt there were enough differences that making a PHP utility/helper class might be helpful to others.
+USAJobs announced they would replace their existing Search API in October 2015. Although the new API is not much more complicated, there were enough differences that making a PHP utility/helper seemed potentially helpful to others.
 
 ## Tutorial
 
@@ -23,7 +24,9 @@ To use the USAJobs utility class in your PHP code, you must first include it.
 	require_once 'USAJobs.class.php';
 ```
 
-Once that's been accomplished, you'll need to create an object and initialize it with your USAJobs account information.
+To use this class, you must have an API Key. If you don't have an API Key, you can request one from the [USAJobs.gov website](https://developer.usajobs.gov/Search-API/Request-API-Key). 
+
+Once you have an API Key, you'll use it to initialize an instance/object of our USAJobs class, like so:
 
 ```html
 
@@ -32,13 +35,18 @@ Once that's been accomplished, you'll need to create an object and initialize it
 ```
 
 
+
+*IMPORTANT NOTE:* If you invoke the getJobListing() method without first setting _any_ query filtering parameters, the USAJobs web server will return a 503 Error/Service Unavailable error. 
+
 ```html
-	// let's set a keyword parameter
+	// let's set a keyword parameter (NPS is National Park Service, by the way.)
 	$objUSAJobs->setKeyword("NPS");
-	
+```
+
+```html
 	// retrieve the list!
 	$jobs = json_decode($objUSAJobs->getJobListing());
 ?>
 ```
 
-*IMPORTANT NOTE:* If you invoke the getJobListing() method without first using any query filtering parameters, the USAJobs web server will return a 503 Error/Service Unavailable error. 
+
