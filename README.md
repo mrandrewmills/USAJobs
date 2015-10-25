@@ -26,7 +26,7 @@ You're probably not using any query parameters to filter the results. For some r
 
 Fortunately, if you add one query parameter (e.g. Organization=TR) to filter search results, that prevents the 503 Error from happening. 
 
-So, stop being a jerk by asking for all job listing on USAJobs.gov ("I kid, I kid, I joke with you." - Triumph the Insult Comic Dog), and make more reasonable requests by narrowing your query with parameters before invoking the getJobListing() method.
+So, stop being a jerk by asking for all jobs listed on USAJobs.gov (*"I kid, I kid, I joke with you." - Triumph the Insult Comic Dog*), and make more reasonable requests by narrowing your query with parameters before invoking the getJobListing() method.
 
 Not sure what query parameters you can use? USAJobs.gov has [fairly decent documentation](https://developer.usajobs.gov/Search-API/API-Query-Parameters).
 
