@@ -350,7 +350,7 @@
      
      function createURLParams() {
      
-        // TODO: tedious bullshittery. Maybe convert to an array we can loop through instead?
+        // TODO: tedious bullshittery. Maybe some kind of array that we can loop through instead?
      
      	$URLParams = "";
      	     	
@@ -459,11 +459,11 @@
 	}
 
 	if ($this->radius != "") { 
-	     	$URLParams = $URLParams . "&radius=" . $this->radius;
+	     	$URLParams = $URLParams . "KeywordFilter=" . $this->keywordFilter;
 	}
 
 	if ($this->fields != "") { 
-	     	$URLParams = $URLParams . "&fields=" . $this->fields;
+	     	$URLParams = $URLParams . "KeywordFilter=" . $this->keywordFilter;
 	}	
 
 	if ($this->salaryBucket != "") { 
@@ -491,11 +491,14 @@
 	}
 	
 	// if URLParams is NOT empty, don't forget to prefix the string with a question mark
-	if ($URLParams != "") { 
-		$URLParams = "?" . $URLParams;
-		
+	if ($URLParams != "") {
+		// since our aggregation of URL Parameters begins with a &FirstParameter
+		// we need to skip the first character to avoid "?&FirstParameter=example&SecondParameter, etc." 
+		$URLParams = "?" . substr($URLParams,1);
 		}
 			
+	// TODO: convert string to URL safe format?
+	
 	return $URLParams;
      }
 
