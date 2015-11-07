@@ -12,7 +12,7 @@ a PHP utility class for USAJobs' new Search API (circa October 2015)
 
 Q. WHAT IS THIS EXACTLY?
 
-USAJobs announced they would replace their existing Search API in October 2015. Although the new API is not much more complicated, there were enough differences (i.e. required request headers) that making a PHP utility/helper class seemed potentially helpful to others.
+USAJobs announced they would replace their existing Search API in ~~October 2015~~ January 2016. Although the new API is not much more complicated, there were enough differences (i.e. required request headers) that making a PHP utility/helper class seemed potentially helpful to others.
 
 This is a work in progress, and if other PHP developers want to help identify and/or resolve issues, please feel free to do so.
 
