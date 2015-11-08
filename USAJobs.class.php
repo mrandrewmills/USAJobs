@@ -49,6 +49,16 @@
      private $Student;
      private $Internship;
      private $recentGrad;
+     
+     // for internal use, enumerations, etc.
+
+     private $countrysubdivisions;
+     private $countries;
+     private $geoloccodes;
+     private $postalcodes;
+     private $payplans;
+     private $OccupationalSeries;
+     private $agencysubelements;
 
      function __construct($ua, $apikey){
 
@@ -57,8 +67,12 @@
      }
 
      /*
-        Note: there is no setHost method b/c host should never change.
-        There are also no getUserAgent or getAPIKey methods for security reasons.
+        REQUIRED PROPERTIES
+     
+        Notes: 
+        
+        1) There is no setHost method b/c host should NEVER change.
+        2) There are also no getUserAgent or getAPIKey methods for security reasons.
      */
      
      function setUserAgent($ua) {
@@ -70,6 +84,13 @@
      	$this->authorization_key = $apikey;
      }
 
+
+     /* OPTIONAL PROPERTIES
+     
+        Notes:
+        
+        1) If you query with no filtering parameters, you will get a 503-Service Unavailable status. Don't be a jerk, ok?   
+     */
      
      function setKeyword($kw) {
      	$this->keyword = $kw;
@@ -309,7 +330,49 @@
      	return $this->RecentGrad;
      }
      
+     // ENUMERATION RETRIEVAL
      
+     function getCountrySubdivisions() {
+     	$CountrySubdivisions = file_get_contents("https://data.usajobs.gov/api/codelist/countrysubdivisions");
+
+     	return $CountrySubdivisions;
+     }
+     
+     function getCountries() {
+     	$Countries = file_get_contents("https://data.usajobs.gov/api/codelist/countries");
+
+     	return $Countries;
+     }
+     
+     function getGeoLocCodes() {
+        $GeoLocCodes = file_get_contents("https://data.usajobs.gov/api/codelist/geoloccodes");
+
+     	return $GeoLocCodes;     
+     }
+     
+     function getPostalCodes() {
+	$PostalCodes = file_get_contents("https://data.usajobs.gov/api/codelist/postalcodes");
+	
+	return $PostalCodes;
+     }
+     
+     function getPayPlans() {
+     	$PayPlans = file_get_contents("https://data.usajobs.gov/api/codelist/payplans");
+     	
+     	return $PayPlans;
+     }
+     
+     function getOccupationalSeries() {
+     	$OccupationalSeries = file_get_contents("https://data.usajobs.gov/api/codelist/OccupationalSeries");
+     	
+     	return $OccupationalSeries;
+     }
+
+     function getAgencySubelements() {
+     	$AgencySubelements = file_get_contents("https://data.usajobs.gov/api/codelist/agencysubelements");
+     	
+     	return $AgencySubelements;
+     }     
 
      
      // UTILITY METHODS (Where the actual work happens)
@@ -492,18 +555,14 @@
 	
 	// if URLParams is NOT empty, don't forget to prefix the string with a question mark
 	if ($URLParams != "") {
-		// since our aggregation of URL Parameters begins with a &FirstParameter
-		// we need to skip the first character to avoid "?&FirstParameter=example&SecondParameter, etc." 
+		// since URLParams string will begin with a "&", we skip first char to "replace" it with a "?" instead 
 		$URLParams = "?" . substr($URLParams,1);
 		}
-			
-	// TODO: convert string to URL safe format?
+	else {
+		// ToDo: user is querying with no paramters. Do we want to intervene, or let them get a 503/Service Unavailable?
+	}
 	
 	return $URLParams;
-     }
-
-     function parseJobListing() {
-       //TODO: parse the JSON response into an object
      }
    }
 ?>
