@@ -522,11 +522,11 @@
 	}
 
 	if ($this->radius != "") { 
-	     	$URLParams = $URLParams . "KeywordFilter=" . $this->keywordFilter;
+	     	$URLParams = $URLParams . "&Radius=" . $this->radius;
 	}
 
 	if ($this->fields != "") { 
-	     	$URLParams = $URLParams . "KeywordFilter=" . $this->keywordFilter;
+	     	$URLParams = $URLParams . "&Fields=" . $this->fields;
 	}	
 
 	if ($this->salaryBucket != "") { 
